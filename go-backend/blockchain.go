@@ -103,13 +103,33 @@ func getBlockchainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handler to add a new transaction to the pool
+// func addTransactionHandler(w http.ResponseWriter, r *http.Request) {
+// 	var transaction Transaction
+// 	err := json.NewDecoder(r.Body).Decode(&transaction)
+// 	if err != nil {
+// 		http.Error(w, "Invalid transaction format", http.StatusBadRequest)
+// 		return
+// 	}
+
+// 	// Add the transaction to the pool
+// 	transactionDetails := fmt.Sprintf("Sender: %s, Receiver: %s, Amount: %d", transaction.Sender, transaction.Receiver, transaction.Amount)
+// 	blockchain.AddTransactionToPool(transactionDetails)
+
+//		// Respond with success
+//		w.WriteHeader(http.StatusOK)
+//		fmt.Fprintf(w, "Transaction added to the pool")
+//	}
 func addTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	var transaction Transaction
 	err := json.NewDecoder(r.Body).Decode(&transaction)
 	if err != nil {
 		http.Error(w, "Invalid transaction format", http.StatusBadRequest)
+		fmt.Println("Error decoding transaction:", err) // Log the error for debugging
 		return
 	}
+
+	// Log the received transaction
+	fmt.Printf("Received transaction: %+v\n", transaction)
 
 	// Add the transaction to the pool
 	transactionDetails := fmt.Sprintf("Sender: %s, Receiver: %s, Amount: %d", transaction.Sender, transaction.Receiver, transaction.Amount)
